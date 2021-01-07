@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <ul>
+    <li id="item">1</li>
+    <li id="item">2</li>
+    <li id="item">3</li>
+    <li id="item">4</li>
+    <li id="item">5</li>
+  </ul>
+  <script>
+    // 事件委托
+    let ul = document.getElementById('id')
+    ul.addEventListener('click', (event) => {
+      console.log(event.target.innerText);
+    })
+  </script>
+</body>
+</html>
