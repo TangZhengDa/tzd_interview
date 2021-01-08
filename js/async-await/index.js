@@ -11,4 +11,5 @@ async function testAsync() {
   await getJson()
   console.log(3);
 }
+
 testAsync()
