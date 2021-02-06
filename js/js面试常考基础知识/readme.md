@@ -15,7 +15,9 @@ instanceof只能判断引用类型
 
 # 让instanceof也能判断原始类型
 
+
 # instanof原理
+
 
 # 类型转换
 转为布尔值
