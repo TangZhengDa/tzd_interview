@@ -19,6 +19,7 @@ instanceof只能判断引用类型
 # instanof原理
 
 
+
 # 类型转换
 转为布尔值
 转为数字
