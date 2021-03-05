@@ -19,7 +19,7 @@
   </a-form>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, toRaw } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { useForm } from '@ant-design-vue/use'
 import { useRouter } from 'vue-router'
 export default defineComponent({
@@ -66,7 +66,12 @@ export default defineComponent({
         .then(res => {
           // console.log(res, toRaw(modelRef))
           if (res !== 'error') {
-            console.log(123)
+            // const payload = {
+            //   email: res.email,
+            //   password: res.password,
+            //   nickName: res.nickName
+            // }
+            // 发起接口请求
           }
         })
         .catch(err => {

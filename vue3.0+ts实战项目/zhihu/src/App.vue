@@ -38,6 +38,7 @@ export default defineComponent({
 <style>
 .column{
   padding-top: 70px;
-  width: 300px;
+  width: 500px;
+  margin: 0 auto;
 }
 </style>
