@@ -16,9 +16,13 @@
 import { defineComponent, reactive, toRaw } from 'vue'
 import { useForm } from '@ant-design-vue/use'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { message } from 'ant-design-vue'
+
 export default defineComponent({
   setup () {
     const router = useRouter()
+    const store = useStore()
     const modelRef = reactive({
       email: '',
       password: ''
@@ -43,7 +47,17 @@ export default defineComponent({
     const onSubmit = () => {
       validate()
         .then(res => {
-          console.log(res, toRaw(modelRef))
+          // 登录
+          const payload = {
+            email: modelRef.email,
+            password: modelRef.password
+          }
+          store.dispatch('loginAndFetch', payload).then(res => {
+            message.success('登录成功，2秒后跳转页面')
+            setTimeout(() => {
+              router.push('/')
+            }, 2000)
+          })
         })
         .catch(err => {
           console.log('error', err)

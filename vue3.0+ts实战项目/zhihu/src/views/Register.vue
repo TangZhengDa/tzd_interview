@@ -22,9 +22,12 @@
 import { defineComponent, reactive } from 'vue'
 import { useForm } from '@ant-design-vue/use'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { message } from 'ant-design-vue'
 export default defineComponent({
   setup () {
     const router = useRouter()
+    const store = useStore()
     const modelRef = reactive({
       email: '',
       nickName: '',
@@ -66,12 +69,19 @@ export default defineComponent({
         .then(res => {
           // console.log(res, toRaw(modelRef))
           if (res !== 'error') {
-            // const payload = {
-            //   email: res.email,
-            //   password: res.password,
-            //   nickName: res.nickName
-            // }
+            const payload = {
+              email: res.email,
+              password: res.password,
+              nickName: res.nickName
+            }
             // 发起接口请求
+            store.dispatch('register', payload).then((res) => {
+              console.log(res)
+              message.success('注册成功 正在跳转登录页面')
+              setTimeout(() => {
+                router.push('/login')
+              })
+            })
           }
         })
         .catch(err => {
