@@ -3,6 +3,7 @@ import { axios, AxiosRequestConfig } from '../http'
 import { createStore, Commit } from 'vuex'
 import { GlobalDataProps, GlobalErrorProps } from './types'
 import { storageType, StorageHandler } from '../utils/storage'
+import { objToArr, arrToObj } from '../utils/helper'
 const storageHandler = new StorageHandler()
 const asyncAndCommit = async (url: string, mutationsName: string,
   commit: Commit, config: AxiosRequestConfig = { method: 'get' }, extraData?: any) => {
@@ -20,7 +21,7 @@ const store = createStore<GlobalDataProps>({
     error: { status: true },
     token: '',
     isLoading: false,
-    columns: [],
+    columns: { data: {}, currentPage: 0, total: 0 },
     posts: [],
     user: { isLogin: false }
   },
@@ -36,6 +37,15 @@ const store = createStore<GlobalDataProps>({
     },
     fetchCurrentUser (state, rawData) {
       state.user = { isLogin: true, ...rawData.data }
+    },
+    fetchColumns (state, rawData) {
+      const { data } = state.columns
+      const { list, count, currentPage } = rawData.data
+      state.columns = {
+        data: { ...data, ...arrToObj(list) },
+        total: count,
+        currentPage: currentPage * 1
+      }
     }
   },
   actions: {
@@ -53,9 +63,20 @@ const store = createStore<GlobalDataProps>({
     },
     fetchCurrentUser ({ commit }) {
       return asyncAndCommit('./api/user/current', 'fetchCurrentUser', commit)
+    },
+    // 请求专栏列表
+    fetchColumns ({ state, commit }, params = {}) {
+      const { currentPage = 1, pageSize = 6 } = params
+      if (state.columns.currentPage < currentPage) {
+        return asyncAndCommit(`/api/columns?currentPage=${currentPage}&pageSize=${pageSize}`, 'fetchColumns', commit)
+      }
     }
   },
-  getters: {}
+  getters: {
+    getColumns: (state) => {
+      return objToArr(state.columns.data)
+    }
+  }
 })
 
 export default store

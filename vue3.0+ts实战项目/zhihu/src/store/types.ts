@@ -34,11 +34,19 @@ interface ImageProps {
   createdAt?: string
 }
 
+interface ListProps<P> {
+  [id: string]: P;
+}
+
 export interface GlobalDataProps {
   error: GlobalErrorProps,
   token: string,
   isLoading: boolean,
-  columns: ColumnProps[],
+  columns: {
+    data: ListProps<ColumnProps>,
+    currentPage: number,
+    total: number
+  },
   posts: PostProps[],
   user: UserProps,
 }
